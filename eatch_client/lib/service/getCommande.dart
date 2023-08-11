@@ -30,7 +30,7 @@ class GetDataCommandeCuisineFuture extends ChangeNotifier {
       );
 
       print(response.statusCode);
-      print("Liste des commandes ${response.body}");
+      //print("Liste des commandes ${response.body}");
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);

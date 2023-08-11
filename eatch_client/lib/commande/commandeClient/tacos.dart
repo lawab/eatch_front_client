@@ -34,69 +34,78 @@ class TacosState extends State<Tacos> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.yellowColor,
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 1,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 50,
-                mainAxisExtent: 200),
-            itemCount: widget.produits.length,
-            itemBuilder: (BuildContext ctx, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Details(
-                                produit: widget.produits[index],
-                                page: widget.page,
-                              )));
-                },
-                child: Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 160,
-                        width: 200,
-                        alignment: Alignment.bottomRight,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'http://13.39.81.126:4003${widget.produits[index].image!}'),
-                              fit: BoxFit.cover),
-                        ),
-                        child: const Icon(
-                          Icons.add_box,
-                          color: Colors.black,
-                          size: 35,
+      body: widget.produits.isEmpty
+          ? const Center(
+              child: Text(
+                'Aucun produit disponible',
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          : Container(
+              padding: const EdgeInsets.all(10),
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 50,
+                      mainAxisExtent: 200),
+                  itemCount: widget.produits.length,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Details(
+                                      produit: widget.produits[index],
+                                      page: widget.page,
+                                    )));
+                      },
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 160,
+                              width: 200,
+                              alignment: Alignment.bottomRight,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'http://13.39.81.126:4003${widget.produits[index].image!}'),
+                                    fit: BoxFit.cover),
+                              ),
+                              child: const Icon(
+                                Icons.add_box,
+                                color: Colors.black,
+                                size: 35,
+                              ),
+                            ),
+                            Container(
+                                height: 30,
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.produits[index].productName!,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    Expanded(child: Container()),
+                                    Text(
+                                      widget.produits[index].price.toString(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                )),
+                          ],
                         ),
                       ),
-                      Container(
-                          height: 30,
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Text(
-                                widget.produits[index].productName!,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              Expanded(child: Container()),
-                              Text(
-                                widget.produits[index].price.toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
-              );
-            }),
-      ),
+                    );
+                  }),
+            ),
     );
   }
 }

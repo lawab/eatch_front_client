@@ -52,7 +52,7 @@ class ClientAccueilState extends State<ClientAccueil> {
             color: Colors.black,
             image: DecorationImage(
               opacity: 150,
-              image: AssetImage('Eatch.jpeg'),
+              image: AssetImage('assets/Eatch.jpeg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -67,9 +67,9 @@ class ClientAccueilState extends State<ClientAccueil> {
                 child: Container(
                   height: 100,
                   width: 100,
-                  decoration: const BoxDecoration(
-                      image:
-                          DecorationImage(image: AssetImage('logo_vert.png'))),
+                  child: const Image(
+                    image: AssetImage('assets/logo_vert.png'),
+                  ),
                 ),
               ),
               Positioned(
@@ -181,6 +181,138 @@ class ClientAccueilState extends State<ClientAccueil> {
   }
 
   Widget verticalView(double height, double width, context) {
-    return Scaffold(body: Container());
+    return Scaffold(
+      body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            image: DecorationImage(
+              opacity: 150,
+              image: AssetImage('assets/Eatch.jpeg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          height: height,
+          width: width,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 50,
+                width: 300,
+                height: 150,
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  child: const Image(
+                    image: AssetImage('assets/logo_vert.png'),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 100,
+                left: 100,
+                width: 500,
+                height: 300,
+                child: Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Eatch",
+                                style: TextStyle(
+                                    fontFamily: 'Boogaloo',
+                                    fontSize: 50,
+                                    color: Palette.yellowColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text:
+                                    " propose des tacos francais uniques et délicieux",
+                                style: TextStyle(
+                                    fontFamily: 'Boogaloo',
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        child: const Text(
+                          'ainsi que des salades fraîches et savoureuses le tout agrémenté de sauces élaborées avec soin',
+                          style: TextStyle(
+                              fontFamily: 'Allerta',
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: 500,
+                        child: Row(children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Palette.yellowColor,
+                                  minimumSize: const Size(180, 50)),
+                              onPressed: () {},
+                              child: const Text(
+                                'Qui sommes nous',
+                                style: TextStyle(
+                                    fontFamily: 'Boogaloo',
+                                    fontSize: 15,
+                                    color: Palette.greenColors,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Palette.greenColors,
+                                  minimumSize: const Size(180, 50)),
+                              onPressed: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setInt('panier', 0);
+                                prefs.setString('panierCommande', 'null');
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MenuAccueil()));
+                              },
+                              child: const Text(
+                                'Voir notre carte',
+                                style: TextStyle(
+                                    fontFamily: 'Boogaloo',
+                                    fontSize: 18,
+                                    color: Palette.yellowColor,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                          ),
+                        ]),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
   }
 }

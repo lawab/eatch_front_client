@@ -23,10 +23,12 @@ class GetDataCategoriesFuture extends ChangeNotifier {
     //String adressUrl = prefs.getString('ipport').toString();
     print('restaurantId');
     print(restaurantId);
+    print('************************************************get Categorie');
+    //64c7ada91fba039e192d4c55
     try {
       http.Response response = await http.get(
         Uri.parse(
-            'http://13.39.81.126:4003/api/products/getProducts/categories/64c7ada91fba039e192d4c55'), //4002 //products/fetch/categories/$restaurantId
+            'http://13.39.81.126:4003/api/products/getProducts/categories/$restaurantId'), //4002 //products/fetch/categories/$restaurantId
         headers: <String, String>{
           'Context-Type': 'application/json;charSet=UTF-8',
           'Authorization': 'Bearer $token ',
@@ -39,18 +41,22 @@ class GetDataCategoriesFuture extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        var ee = Categorie(title: 'Menu', sId: 'Menu');
-        listCategori.add(ee);
-        for (int i = 0; i < data.length; i++) {
-          if (data[i]['deletedAt'] == null) {
-            listCategori.add(Categorie.fromJson(data[i]));
-            if (data[i]['title'] == 'Jus' || data[i]['title'] == 'Sodas') {
-              for (int j = 0; j < data[i]['products'].length; j++) {
-                listBoisson.add(Products.fromJson(data[i]['products'][j]));
+
+        if (data.isNotEmpty) {
+          var ee = Categorie(title: 'Menu', sId: 'Menu');
+          listCategori.add(ee);
+          for (int i = 0; i < data.length; i++) {
+            if (data[i]['deletedAt'] == null) {
+              listCategori.add(Categorie.fromJson(data[i]));
+              if (data[i]['title'] == 'Jus' || data[i]['title'] == 'Sodas') {
+                for (int j = 0; j < data[i]['products'].length; j++) {
+                  listBoisson.add(Products.fromJson(data[i]['products'][j]));
+                }
               }
             }
           }
         }
+
         print('listBoisson.length');
         print(listBoisson.length);
       } else {

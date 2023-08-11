@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:eatch_client/service/getCategorie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ici , cela permet d'appler le GetDataMatiereFuture
 final getDataMenuFuture =
     ChangeNotifierProvider<GetDataMenuFuture>((ref) => GetDataMenuFuture());
 
@@ -16,28 +14,27 @@ class GetDataMenuFuture extends ChangeNotifier {
   GetDataMenuFuture() {
     getData();
   }
-  //RÔLE_Manager
 
   Future getData() async {
     print("object");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
     var restaurantId = prefs.getString('idRestaurant').toString();
-
-    listMenus = [];
+//64c7ada91fba039e192d4c55
+    //listMenus = [];
 
     try {
       http.Response response = await http.get(
         Uri.parse(
-            'http://13.39.81.126:4009/api/menus/getMenus/restaurant/64c7ada91fba039e192d4c55'), //13.39.81.126 //13.39.81.126:4008
+            'http://13.39.81.126:4009/api/menus/getMenus/restaurant/$restaurantId'), //13.39.81.126 //13.39.81.126:4008
         headers: <String, String>{
           'Context-Type': 'application/json;charSet=UTF-8',
-          //'Authorization': 'Bearer $token ',
+          'Authorization': 'Bearer $token ',
         },
       );
 
       print(response.statusCode);
-
+      print('******************************************get Menu');
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
@@ -54,7 +51,6 @@ class GetDataMenuFuture extends ChangeNotifier {
       print(e.toString());
     }
 
-    print(listMenus.length);
     notifyListeners();
   }
 }
@@ -62,7 +58,7 @@ class GetDataMenuFuture extends ChangeNotifier {
 class Menus {
   String? sId;
   Restaurant? restaurant;
-  double? price;
+  int? price;
   List<Products>? products;
   Category? category;
   String? menutype;
@@ -70,7 +66,7 @@ class Menus {
   String? description;
   String? menuTitle;
   String? image;
-  Null? deletedAt;
+  String? deletedAt;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -244,7 +240,7 @@ class Category {
   String? sId;
   String? title;
   String? image;
-  Null? deletedAt;
+  String? deletedAt;
 
   Category(
       {this.cCreator,

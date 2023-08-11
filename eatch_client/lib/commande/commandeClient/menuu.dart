@@ -4,14 +4,20 @@ import 'package:eatch_client/commande/commandeClient/panier.dart';
 import 'package:eatch_client/commande/commandeClient/tacos.dart';
 import 'package:eatch_client/palette.dart';
 import 'package:eatch_client/service/getCategorie.dart';
+import 'package:eatch_client/service/getMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuClient extends ConsumerStatefulWidget {
   final List<Categorie> commande;
+  final List<Menus> listMenu;
   final int page;
-  const MenuClient({Key? key, required this.commande, required this.page})
+  const MenuClient(
+      {Key? key,
+      required this.commande,
+      required this.listMenu,
+      required this.page})
       : super(key: key);
 
   @override
@@ -92,25 +98,16 @@ class MenuClientState extends ConsumerState<MenuClient> {
                                   )
                                 : MenuMenu(
                                     page: i,
+                                    listMenu: widget.listMenu,
                                   ),
                           ),
-                        /*Container(
-                          child: Tacos(
-                            produits: widget.commande[0].products!,
-                          ),
-                        ),
-                        Container(
-                          child: Boisson(
-                            produits: widget.commande[2].products!,
-                          ),
-                        ),*/
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            Positioned(
+            /*Positioned(
               top: 40,
               right: 0,
               width: 130,
@@ -152,7 +149,7 @@ class MenuClientState extends ConsumerState<MenuClient> {
                   ],
                 ),
               ),
-            ),
+            ),*/
             panier == 0
                 ? Container()
                 : Positioned(

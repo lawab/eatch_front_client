@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:eatch_client/commande/commandeClient/numCommande.dart';
 import 'package:eatch_client/service/getCategorie.dart';
 import 'package:eatch_client/service/getCommande.dart';
 import 'package:http/http.dart' as http;
@@ -243,8 +244,9 @@ class RecapitulatifState extends ConsumerState<Recapitulatif> {
                                 '***********************************************************');
                             var body = jsonEncode(json);
                             print(body);
-                            /*creationCommande(
-                                context, menuC, productC, widget.prix,viewModel.listCommande.length + 1);*/
+
+                            creationCommande(context, menuC, productC,
+                                widget.prix, viewModel.listCommande.length + 1);
                           }),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Palette.primaryColor,
@@ -280,7 +282,7 @@ class RecapitulatifState extends ConsumerState<Recapitulatif> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var id = prefs.getString('IdUser').toString();
     var token = prefs.getString('token');
-
+    var num = prefs.getString('numeroTable').toString();
     var url = Uri.parse(
         "http://13.39.81.126:4004/api/orders/createMobile"); //13.39.81.126
     final request = MultipartRequest(
@@ -296,7 +298,7 @@ class RecapitulatifState extends ConsumerState<Recapitulatif> {
       'product': productCC,
       'num_order': num_order,
       'prix': prix,
-      'num_table': 5
+      'num_table': num
     };
     var body = jsonEncode(json);
 
@@ -325,16 +327,22 @@ class RecapitulatifState extends ConsumerState<Recapitulatif> {
           Overlay.of(contextt),
           const CustomSnackBar.info(
             backgroundColor: Colors.green,
-            message: "Restaurant Modifié",
+            message: "Commande acceptée",
           ),
         );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NumCommande(
+                      numero: num_order,
+                    )));
         //ref.refresh(getDataRsetaurantFuture);
       } else {
         showTopSnackBar(
           Overlay.of(contextt),
           const CustomSnackBar.info(
             backgroundColor: Colors.red,
-            message: "Erreur de création",
+            message: "Erreur de commande",
           ),
         );
         print("Error Create Programme  !!!");
